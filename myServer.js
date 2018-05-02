@@ -1,11 +1,12 @@
 const http = require('http');
 const url = require('url');
 
-function start(port, hostname, route, handle) {
-    function onRequest(req, res) {
+exports.start = function (port, host, route, handle) {
+    function onRequest(req, res) { 
         let sPostData = '';
         let sPathname = url.parse(req.url).pathname;
-        req.setEncoding('utf8');
+
+        req.setEncoding('utf-8');
         req.addListener('data', function (dataChunk) {
             sPostData += dataChunk;
             console.log('Chunk = ' + dataChunk);
@@ -15,8 +16,6 @@ function start(port, hostname, route, handle) {
         });
     }
 
-    http.createServer(onRequest).listen(port, hostname);
-    console.log('Server is running at ' + hostname + ':' + port);
+    http.createServer(onRequest).listen(port, host);
+    console.log('Server is running at ' + host + ':' + port);
 }
-
-exports.start = start;
